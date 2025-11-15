@@ -5,26 +5,25 @@ const code = (instructions) => {
 	const functionsLookUpTable = [];
 	const codeArr = instructions.split("");
 	let index = 0;
-	console.log(codeArr)
-	while (index < codeArr.length) {
+	const findWord = () => {
 		let word = '';
 		while (codeArr[index] !== " " && index < codeArr.length) {
 			word += codeArr[index];
 			index++;
 		}
 		index++;
-		let nextWord = '';
-		while (codeArr[index] !== " " && index < codeArr.length) {
-			nextWord += codeArr[index];
-			index++;
-		}
-		if (word === "function") {
+	return word;
+	}
+	console.log(codeArr)
+	while (index < codeArr.length) {
+		const currentWord = findWord();
+		const nextWord = findWord();
+		if (currentWord === "function") {
 			functionsLookUpTable.push(nextWord)
 		}
-		else if (word === "const") {
+		else if (currentWord === "const") {
 			variablesLookUpTable.push(nextWord);
 		}
-		index++;
 	}
 	console.log(variablesLookUpTable, functionsLookUpTable);
 
