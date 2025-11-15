@@ -1,4 +1,4 @@
-const program = `const a = 5; const b = 7; function add () { const c = 4; const d = 5 }; const e = 11; function sub () { const f = 20;}`;
+const program = `const a = 5; const b = 7; function add () { const c = 4; const d = 5 } const e = 11; function sub () { const f = 20;} `;
 
 const code = (instructions) => {
 	const variablesLookUpTable = [];
