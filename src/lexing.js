@@ -1,26 +1,29 @@
-const program = `const a = 5; const b = 7; function add () { const c = 4; const d = 5 } const e = 11; function sub () { const f = 20;} `;
+import { getHeapAddress} from "./heapAddress.js";
+
+const program = `const a = "siri"; const b = 7; function add() { const c = 4; const d = 5 } const e = 11; function sub() { const f = 20;} `;
 
 const code = (instructions) => {
 	const variablesLookUpTable = [];
 	const functionsLookUpTable = [];
+	const heapMemory = [];
 	const codeArr = instructions.split("");
 	let index = 0;
-	const findWord = () => {
+	const findWord = (char) => {
 		let word = '';
 		console.log("findWord BLOCK")
-		while (codeArr[index] !== " " && index < codeArr.length) {
+		while (codeArr[index] !== char && index < codeArr.length) {
 			word += codeArr[index];
 			index++;
 			console.log(index);
 		}
 		console.log("founded word ----> ", word);
-		index++
+		codeArr[index] === "(" ? index : index++;
 		console.log(index, codeArr[index]);
 		return word;
 	}
 	const skipBlock = () => {
 		const stack = ['{'];
-		index++
+		index++;
 		console.log("skipBlock BLOCK")
 		while (stack.length != 0) {
 			if (codeArr[index] === '}')
@@ -33,24 +36,37 @@ const code = (instructions) => {
 	}
 	while (index < codeArr.length) {
 		console.log("MainBlock BLOCK")
+		const startIndex = index;
 		console.log(index, codeArr[index]);
 		console.log("main block started with char:", codeArr[index])
 		if (codeArr[index] === '{')
 			skipBlock();
 		
-			const currentWord = findWord();
+			const currentWord = findWord(" ");
 			if (currentWord === "function") {
-				const nextWord = findWord();
-				functionsLookUpTable.push(nextWord)
+				const nextWord = findWord("(");
+				const heapAddress = getHeapAddress();
+				findWord(" ");
+				skipBlock();
+				const lastIndex = index;
+				const fnBlock = codeArr.slice(startIndex, lastIndex).join("");
+				functionsLookUpTable.push({[nextWord] : heapAddress});
+				heapMemory.push({[heapAddress]: fnBlock})
+				
 			}
 			else if (currentWord === "const") {
-				const nextWord = findWord();
-				variablesLookUpTable.push(nextWord);
+				const nextWord = findWord(" ");
+				const skipOperator = findWord(" ")
+				const assignedValue = findWord(";")
+				
+				
+				variablesLookUpTable.push({[nextWord]: assignedValue});
+
 			}
 		
 	}
-	console.log(variablesLookUpTable, functionsLookUpTable);
-
+	console.log("stack",functionsLookUpTable, variablesLookUpTable);
+	console.log("heap",heapMemory);
 }
 
 code(program);
