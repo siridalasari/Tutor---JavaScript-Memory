@@ -86,3 +86,17 @@ const displayMemory = () => {
 	})
 }
 displayMemory();
+// { "0xss710": "function add() { const c = 4; const d = 5 }" }
+// { "0xss274": "function sub() { const f = 20;}" }
+
+heapMemory.forEach(element => {
+	for (const key in element) {
+		console.log(key, element[key])
+		const startIndex = element[key].split("").indexOf("{");
+		const lastIndex = element[key].split("").lastIndexOf("}");
+		console.log(element[key].split("").slice(startIndex + 1, lastIndex));
+		code(element[key].split("").slice(startIndex + 1, lastIndex).join(""));
+
+		displayMemory();
+	}
+})
