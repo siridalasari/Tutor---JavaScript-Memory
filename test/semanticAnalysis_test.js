@@ -1,6 +1,6 @@
 import { assertEquals } from "jsr:@std/assert";
 import { program } from "../src/userProgram.js";
-import { linesOfCode } from "../src/lexing.js";
+import { linesOfCode } from "../src/semanticAnalysis.js";
 
 const output = [
   { "add()": [2, 7], "sub()": [9, 14] },
