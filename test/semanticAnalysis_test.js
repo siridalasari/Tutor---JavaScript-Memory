@@ -1,6 +1,6 @@
 import { assertEquals } from "jsr:@std/assert";
 import { program } from "../src/userProgram.js";
-import { linesOfCode } from "../src/semanticAnalysis.js";
+import { semanticAnalysis } from "../src/semanticAnalysis.js";
 
 const output = [
   { "add()": [2, 7], "sub()": [9, 14] },
@@ -26,4 +26,4 @@ const output = [
 ];
 
 Deno.test("even modifications in code should match expected code", () =>
-  assertEquals(linesOfCode(program), output));
+  assertEquals(semanticAnalysis(program), output));
